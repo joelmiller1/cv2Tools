@@ -2,7 +2,8 @@
 """
 Created on Tue Nov  5 11:22:52 2019
 
-@author: Joel Miller
+@author: Original: Chris Kodama
+            edited: Joel Miller
 """
 
 import cv2
