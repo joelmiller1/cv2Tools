@@ -5,11 +5,34 @@ Created on Thu Oct 17 21:26:07 2019
 @author: Me
 """
 
-import cv2,glob,os
+import cv2,glob,os,argparse
 
-#TODO: add argparse for command line usage
+def main():
+    parser = argparse.ArgumentParser(description='convert videos to pictures')
+    parser.add_argument('-v', '--vidPath', required=True,
+                        help='path to the video')
+    parser.add_argument('-o', '--picPath', required=True,
+                        help='path to the where you want the pictures')
+    parser.add_argument('-r', type=int,
+                        help='how often to capture pictures')
+    
+    # Video Path
+    args = vars(parser.parse_args())
+    vidPath = args['vidPath']
+    
+    # Picture path -- if no folder, create one
+    picPath = args['picPath']
+    if os.path.isdir(picPath) == False:
+        os.mkdir(picPath)
+    
+    # Default frame rate is 1 image per second
+    frameRate = args['r']
+    if frameRate == None:
+        frameRate = 1
+        
+    bgList(vidPath,picPath,frameRate)
 
-def bgList(vidPath,picPath):
+def bgList(vidPath,picPath,frameRate):
     vidcap = cv2.VideoCapture(vidPath)
     imgList = []
     currentDir = os.getcwd()
@@ -27,7 +50,6 @@ def bgList(vidPath,picPath):
         return hasFrames,image
     
     sec = 0
-    frameRate = 2 #//it will capture image in each 0.5 second
     success,image  = getFrame(sec)
     
     while success:
@@ -46,7 +68,7 @@ def bgList(vidPath,picPath):
     cv2.destroyAllWindows()
     print("Done.")
 
-
-
+if __name__ == '__main__':
+    main()
 
 
