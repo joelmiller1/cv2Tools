@@ -54,17 +54,23 @@ while True:
     
     if motionFlag:
         vw.write(frame)
-    if datetime.now() > motionTimeout and vw.isOpened():
-        motionFlag = False
-        print("motion record ended")
-        vw.release()
-        startRecord = True
+    try:
+        if datetime.now() > motionTimeout and vw.isOpened():
+            motionFlag = False
+            print("motion record ended")
+            vw.release()
+            startRecord = True
+    except:
+        pass
     
     key = cv2.waitKey(1) & 0xFF
     if key == ord("q"):
-        if vw.isOpened():
-            vw.release()
-        break
+        try:
+            if vw.isOpened():
+                vw.release()
+            break
+        except:
+            break
     if key == ord("s"):
         videoWriteEnable = True
         print("Video write enabled")
